@@ -1,10 +1,11 @@
 FROM node:latest
 
-RUN npm install --global nodemon
+RUN npm install -g -s --no-progress yarn nodemon
 
-ADD package.json /tmp/package.json
-RUN cd /tmp && npm install
-RUN mkdir -p /usr/src && cp -a /tmp/node_modules /usr/src/
+RUN mkdir -p /usr/src
+ADD package.json /usr/src/package.json
+ADD yarn.lock /usr/src/yarn.lock
+RUN cd /usr/src && yarn install
 
 WORKDIR /usr/src
 ADD . /usr/src

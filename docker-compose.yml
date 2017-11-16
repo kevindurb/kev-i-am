@@ -6,7 +6,7 @@ services:
     ports:
       - "1337:8080"
     volumes:
-      - ./:/usr/src
+      - ./src:/usr/src/src
     links:
       - redis
       - mongo

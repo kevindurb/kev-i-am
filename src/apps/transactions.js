@@ -1,8 +1,6 @@
 const AppModel = require('./model');
 const appPresenter = require('./presenter');
 const appServices = require('./services');
-const userServices = require('../users/services');
-const userPresenter = require('../users/presenter');
 
 module.exports = {
   getById(req, res) {
@@ -24,18 +22,4 @@ module.exports = {
       res.status(201).send(appPresenter(app))
     ));
   },
-  async createUser(req, res) {
-    try {
-      const app = await appServices.getById(req.params.id);
-      const user = await userServices.create(req.body);
-      if (!app.users) {
-        app.users = [];
-      }
-      app.users.push(user);
-      await app.save()
-      res.status(201).send(userPresenter(user));
-    } catch(err) {
-      res.status(400).end();
-    }
-  }
 };
