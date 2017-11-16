@@ -1,7 +1,8 @@
 const express = require('express');
 const router = new express.Router();
 
-router.use('/apps', require('./apps'));
-router.use('/users', require('./users'));
+const transactions = require('./transactions');
+
+router.get('/:id', transactions.getById);
 
 module.exports = router;

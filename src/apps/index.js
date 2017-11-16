@@ -5,5 +5,6 @@ const appsTransactions = require('./transactions');
 
 router.get('/:id', appsTransactions.getById);
 router.post('/', appsTransactions.create);
+router.post('/:id/users', appsTransactions.createUser);
 
 module.exports = router;
