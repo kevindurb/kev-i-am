@@ -1,0 +1,19 @@
+version: '3'
+services:
+  api:
+    build: ./
+    user: node
+    ports:
+      - "1337:8080"
+    volumes:
+      - ./:/usr/src
+    links:
+      - redis
+      - mongo
+    depends_on:
+      - redis
+      - mongo
+  redis:
+    image: redis:alpine
+  mongo:
+    image: mongo:latest
