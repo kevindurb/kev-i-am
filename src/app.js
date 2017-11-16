@@ -1,5 +1,5 @@
 const express = require('express');
-// const routes = require('./routes');
+const routes = require('./routes');
 const debug = require('debug')('kev-i-am:app');
 const helmet = require('helmet');
 const app = express();
@@ -8,7 +8,7 @@ app.use(helmet());
 app.use(require('cors')());
 
 app.use(require('body-parser').json());
-// app.use(routes);
+app.use(routes);
 
 app.get('/', (req, res) => {
   debug('status:OK');
