@@ -1,0 +1,8 @@
+{
+  "name": "kev-i-am",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:kevindurb/kev-i-am.git",
+  "author": "Kevin Durbin <kevindurb@gmail.com>",
+  "license": "MIT"
+}
