@@ -10,7 +10,7 @@ module.exports = {
     try {
       const user = await userServices.getByEmail(email);
       if (await passwordService.compare(password, user.hash)) {
-        const accessToken = sessionServices.createNewTokens(user.id);
+        const accessToken = await sessionServices.createNewTokens(user.id);
 
         res.status(201).send(sessionPresenter(accessToken));
       } else {
@@ -37,7 +37,9 @@ module.exports = {
     const token = req.params.token;
     const data = await sessionServices.getTokenData(token);
     if (data && data.type === 'refresh') {
-      const accessToken = sessionServices.createNewTokens(data.userId);
+      sessionServices.deleteToken(data.accessToken);
+      sessionServices.deleteToken(data.refreshToken);
+      const accessToken = await sessionServices.createNewTokens(data.userId);
       res.status(201).send(sessionPresenter(accessToken));
     } else {
       res.status(400).end();
