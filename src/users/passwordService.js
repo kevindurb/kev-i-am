@@ -4,7 +4,7 @@ module.exports = {
   hash(password) {
     return bcrypt.hash(password, 10);
   },
-  compare(hashA, hashB) {
-    return bcrypt.compare(hashA, hashB);
+  compare(password, hash) {
+    return bcrypt.compare(password, hash);
   }
 };

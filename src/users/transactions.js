@@ -1,5 +1,5 @@
 const userPresenter = require('./presenter');
-const appServices = require('./services');
+const appServices = require('../apps/services');
 const userServices = require('../users/services');
 
 module.exports = {
@@ -17,7 +17,11 @@ module.exports = {
   },
   async create(req, res) {
     try {
+      console.log(req.params.id);
       const app = await appServices.getById(req.params.id);
+      if (!app) {
+        throw 'APP_NOT_FOUND';
+      }
       const user = await userServices.create(req.body);
       if (!app.users) {
         app.users = [];
@@ -26,7 +30,11 @@ module.exports = {
       await app.save();
       res.status(201).send(userPresenter(user));
     } catch(err) {
-      res.status(400).end();
+      if (err === 'APP_NOT_FOUND') {
+        res.status(404).send().end();
+      } else {
+        res.status(400).send().end();
+      }
     }
   }
 };

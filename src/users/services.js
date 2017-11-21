@@ -16,6 +16,9 @@ module.exports = {
     return user.save();
   },
   getById(id) {
-    return UserModel.findOne({ _id: id}).exec();
+    return UserModel.findOne({ _id: id }).exec();
+  },
+  getByEmail(email) {
+    return UserModel.findOne({ email }).exec();
   }
 };
