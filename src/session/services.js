@@ -3,8 +3,13 @@ const utils = require('./utils');
 
 module.exports = {
   async getTokenData(token) {
-    const result = await (new Promise((res) => {
-      sessionStore.get(token, res);
+    const result = await (new Promise((res, rej) => {
+      sessionStore.get(token, (err, value) => {
+        if (err) {
+          rej(err);
+        }
+        res(value);
+      });
     }));
     if (!result) return null;
     return JSON.parse(result);
