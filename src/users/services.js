@@ -4,7 +4,12 @@ const R = require('ramda');
 
 const cleanAndAddHash = (hash) => (
   R.pipe(
-    R.omit(['password', 'hash', 'verified']),
+    R.omit([
+      'password',
+      'hash',
+      'verified',
+      'role',
+    ]),
     R.merge({ hash })
   )
 );

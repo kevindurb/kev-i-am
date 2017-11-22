@@ -2,6 +2,8 @@ const userPresenter = require('./presenter');
 const appServices = require('../apps/services');
 const userServices = require('../users/services');
 
+const ROOT_TOKEN = process.env.ROOT_TOKEN;
+
 module.exports = {
   getById(req, res) {
     const id = req.params.id;
@@ -17,7 +19,6 @@ module.exports = {
   },
   async create(req, res) {
     try {
-      console.log(req.params.id);
       const app = await appServices.getById(req.params.id);
       if (!app) {
         throw 'APP_NOT_FOUND';
@@ -36,6 +37,41 @@ module.exports = {
         res.status(400).send().end();
       }
     }
-  }
+  },
+  async getRole(req, res) {
+    const id = req.params.id;
+    const token = req.query.token;
+
+    if (token !== ROOT_TOKEN) {
+      res.status(403).end();
+      return;
+    }
+
+    const user = await userServices.getById(id);
+    if (user) {
+      res.send({ role: user.role });
+    } else {
+      res.status(404).end();
+    }
+  },
+  async setRole(req, res) {
+    const id = req.params.id;
+    const token = req.query.token;
+    const role = req.body.role;
+
+    if (token !== ROOT_TOKEN) {
+      res.status(403).end();
+      return;
+    }
+
+    const user = await userServices.getById(id);
+    if (user) {
+      user.role = role;
+      await user.save();
+      res.send({ role: user.role });
+    } else {
+      res.status(404).end();
+    }
+  },
 };
 
