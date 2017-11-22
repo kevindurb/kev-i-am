@@ -9,9 +9,10 @@ module.exports = {
     const password = req.body.password;
     try {
       const user = await userServices.getByEmail(email);
-      if (await passwordService.compare(password, user.hash)) {
+      if (!user.verified) {
+        res.status(400).end();
+      } else if (await passwordService.compare(password, user.hash)) {
         const accessToken = await sessionServices.createNewTokens(user.id);
-
         res.status(201).send(sessionPresenter(accessToken));
       } else {
         res.status(400).end();
